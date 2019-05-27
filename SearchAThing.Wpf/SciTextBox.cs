@@ -104,21 +104,25 @@ namespace SearchAThing.Wpf
                 if (changed || Foreground == RedBrush)
                 {
                     var curs = CaretIndex;
-                    var cursBefore = curs;                    
+                    var cursBefore = curs;
 
                     var len_before = Text.Length;
                     if (changed)
                     {
+                        var containsSpace = Text.IndexOf(' ') != -1;
                         Value = measure;
-                        var len_after = Text.Length;
-                        CaretIndex = curs + (len_after - len_before);
-                    }                    
 
-                    if (CaretIndex - curs > 2 && CaretIndex == Text.Length)
-                    {
-                        // ensure focus after number ( ex. select all and digit a number )
-                        CaretIndex = Text.IndexOf(" ");
-                    }
+                        if (cursBefore == len_before && len_before == 1)
+                        {
+                            // ensure focus after number ( ex. select all and digit a number )
+                            CaretIndex = Text.IndexOf(' ');
+                        }
+                        else
+                        {
+                            var len_after = Text.Length;
+                            CaretIndex = curs + (len_after - len_before - (containsSpace ? 0 : 1));
+                        }
+                    }                    
 
                     Foreground = (Brush)ForegroundProperty.DefaultMetadata.DefaultValue;
                 }

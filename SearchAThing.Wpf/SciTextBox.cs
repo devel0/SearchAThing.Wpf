@@ -104,8 +104,8 @@ namespace SearchAThing.Wpf
                 if (changed || Foreground == RedBrush)
                 {
                     var curs = CaretIndex;
-
-
+                    var cursBefore = curs;
+                    Console.WriteLine($"caret before:{CaretIndex}");
 
                     var len_before = Text.Length;
                     if (changed)
@@ -113,6 +113,14 @@ namespace SearchAThing.Wpf
                         Value = measure;
                         var len_after = Text.Length;
                         CaretIndex = curs + (len_after - len_before);
+                    }
+
+                    Console.WriteLine($"caret after:{CaretIndex}");
+
+                    if (CaretIndex - curs > 2 && CaretIndex == Text.Length)
+                    {
+                        // ensure focus after number ( ex. select all and digit a number )
+                        CaretIndex = Text.IndexOf(" ");
                     }
 
                     Foreground = (Brush)ForegroundProperty.DefaultMetadata.DefaultValue;
@@ -127,6 +135,17 @@ namespace SearchAThing.Wpf
             base.OnGotFocus(e);
 
             SelectAll();
+        }
+
+        protected override void OnLostFocus(RoutedEventArgs e)
+        {
+            base.OnLostFocus(e);
+
+            var str = Value.ToString(CultureInfo.InvariantCulture, includePQ: false);
+            if (Text != str)
+            {
+                Text = str; // ensure mu displayed
+            }
         }
     }
 

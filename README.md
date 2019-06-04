@@ -10,3 +10,11 @@
 ## install and usage
 
 browse [myget instructions](https://www.myget.org/feed/devel0/package/nuget/SearchAThing.Wpf)
+
+## cheatsheet
+
+- math op convert to enable/disable a button depending that a DataGrid selection count great than 1
+
+```cs
+IsEnabled="{Binding SelectedItems.Count, ConverterParameter=gte 1, Converter={StaticResource MathOpConverter}, ElementName=dataGrid, Mode=OneWay}"
+```

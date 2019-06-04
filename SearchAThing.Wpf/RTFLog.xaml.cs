@@ -71,7 +71,7 @@ namespace SearchAThing.Wpf
         /// </summary>        
         public void Append(string msg, bool newline = false, LogColor color = LogColor.normal)
         {
-            Brush brush = null;
+            Brush brush = black;
             if (color != LogColor.normal)
             {
                 switch (color)
@@ -102,6 +102,16 @@ namespace SearchAThing.Wpf
 
             if (newline) para = null;
             if (AutoScroll) rtf.ScrollToEnd();
+        }
+
+        public void Append(string msg)
+        {
+            Append(msg, false, LogColor.normal);
+        }
+
+        public void AppendLine(string msg)
+        {
+            Append(msg, true, LogColor.normal);
         }
 
     }

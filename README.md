@@ -18,3 +18,9 @@ browse [myget instructions](https://www.myget.org/feed/devel0/package/nuget/Sear
 ```cs
 IsEnabled="{Binding SelectedItems.Count, ConverterParameter=gte 1, Converter={StaticResource MathOpConverter}, ElementName=dataGrid, Mode=OneWay}"
 ```
+
+- math op convert to visible/collapse a button depending that a DataGrid selection count great than 1
+
+```cs
+Visibility="{Binding SelectedItems.Count, ConverterParameter=gte 1 tovis, Converter={StaticResource MathOpConverter}, ElementName=dataGrid, Mode=OneWay}"
+```

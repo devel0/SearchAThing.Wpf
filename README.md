@@ -6,6 +6,7 @@
 
 - RTFLog
 - SciTextBox
+- StatusManager
 
 ## install and usage
 

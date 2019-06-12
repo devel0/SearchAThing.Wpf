@@ -1,7 +1,10 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.ComponentModel;
 using System.Diagnostics;
 using System.Linq;
+using System.Threading;
+using System.Threading.Tasks;
 
 namespace SearchAThing.Wpf
 {
@@ -10,7 +13,7 @@ namespace SearchAThing.Wpf
     /// Manage concurrent status set, with detect of the last status release.
     /// Example of usage : https://searchathing.com/?p=1424
     /// </summary>
-    public class StatusManager : INotifyPropertyChanged
+    public class StatusManager : IDisposable, INotifyPropertyChanged
     {
         public event PropertyChangedEventHandler PropertyChanged;
 
@@ -20,12 +23,47 @@ namespace SearchAThing.Wpf
         HashSet<uint> statusIdSet;
         Dictionary<uint, string> statusIdMsgDict;
 
-        public StatusManager()
+        object autoclearLck;
+        CancellationTokenSource cts = new CancellationTokenSource();
+        int autoclearUnassignedIdMs = 0;
+        DateTime? lastStatusChange = null;
+
+        /// <summary>
+        /// specify in autoclearUnassignedIdMs a value in ms greather than 0 to autoclear status if directly assigned ( ie not using NewStatus, ReleaseStatus )
+        /// </summary>
+        public StatusManager(int _autoclearUnassignedIdMs = 0)
         {
             statusId = 0;
             statusIdSet = new HashSet<uint>();
             statusIdLck = new object();
             statusIdMsgDict = new Dictionary<uint, string>();
+            this.autoclearUnassignedIdMs = _autoclearUnassignedIdMs;
+
+            if (_autoclearUnassignedIdMs > 0)
+            {
+                autoclearLck = new object();
+
+                Task.Run(async () =>
+                {
+                    while (!cts.Token.IsCancellationRequested)
+                    {
+                        if (lastStatusChange.HasValue && (DateTime.Now - lastStatusChange.Value).TotalMilliseconds >= _autoclearUnassignedIdMs)
+                        {
+                            lock (autoclearLck)
+                            {
+                                lastStatusChange = null;
+                                ManagedStatus = "";
+                            }
+                        }
+                        await Task.Delay(500, cts.Token);
+                    }
+                });
+            }
+        }
+
+        public void Dispose()
+        {
+            cts.Cancel();
         }
 
         bool _progress_visible;
@@ -55,7 +93,7 @@ namespace SearchAThing.Wpf
                 }
             }
         }
-
+        
         string _status;
         /// <summary>
         /// Bind your textblock to this property.
@@ -73,13 +111,33 @@ namespace SearchAThing.Wpf
                 {
                     _status = value;
                     PropertyChanged?.Invoke(this, new PropertyChangedEventArgs("Status"));
+                    if (autoclearUnassignedIdMs > 0)
+                    {
+                        lock (autoclearLck)
+                        {
+                            lastStatusChange = DateTime.Now;
+                        }
+                    }
+                }
+            }
+        }
+
+        private string ManagedStatus
+        {
+            get { return _status; }
+            set
+            {
+                if (_status != value)
+                {
+                    _status = value;
+                    PropertyChanged?.Invoke(this, new PropertyChangedEventArgs("Status"));
                 }
             }
         }
 
         public void Clear(string defaultMessage = "Ready.")
         {
-            Status = defaultMessage;
+            ManagedStatus = defaultMessage;
         }
 
         /// <summary>
@@ -98,7 +156,7 @@ namespace SearchAThing.Wpf
                 statusIdMsgDict.Add(statusId, msg);
             }
 
-            Status = msg;
+            ManagedStatus = msg;
 
             return id;
         }
@@ -129,16 +187,16 @@ namespace SearchAThing.Wpf
             }
 
             if (empty)
-                Status = msg;
+                ManagedStatus = msg;
             else
             {
                 if (back_msg != null)
-                    Status = back_msg;
+                    ManagedStatus = back_msg;
                 else
-                    Status = $"{idMsg} [done]";
+                    ManagedStatus = $"{idMsg} [done]";
             }
         }
-
+        
     }
 
 }

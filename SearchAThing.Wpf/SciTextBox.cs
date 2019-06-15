@@ -63,7 +63,7 @@ namespace SearchAThing.Wpf
             {
                 if (obj.Value.MU.Equals(MUCollection.Adimensional.adim))
                 {
-                    var str = obj.Value.ToString(CultureInfo.InvariantCulture, includePQ: false);
+                    var str = obj.Value.ToString(includePQ: false);
 
                     obj.Text = str;
                 }
@@ -114,15 +114,25 @@ namespace SearchAThing.Wpf
 
                         if (cursBefore == len_before && len_before == 1)
                         {
-                            // ensure focus after number ( ex. select all and digit a number )
-                            CaretIndex = Text.IndexOf(' ');
+                            // ensure focus after number ( ex. select all and digit a number )                            
+                            //if (containsSpace)
+                            var sidx = Text.IndexOf(' ');
+                            if (sidx != -1)
+                                CaretIndex = sidx;
+                            else
+                                CaretIndex = Text.Length;
                         }
                         else
                         {
                             var len_after = Text.Length;
-                            CaretIndex = curs + (len_after - len_before - (containsSpace ? 0 : 1));
+                            if (measure.MU == MUCollection.Adimensional.adim)
+                            {
+                                CaretIndex = curs + (len_after - len_before);
+                            }
+                            else
+                                CaretIndex = curs + (len_after - len_before - (containsSpace ? 0 : 1));
                         }
-                    }                    
+                    }
 
                     Foreground = (Brush)ForegroundProperty.DefaultMetadata.DefaultValue;
                 }
@@ -142,7 +152,7 @@ namespace SearchAThing.Wpf
         {
             base.OnLostFocus(e);
 
-            var str = Value.ToString(CultureInfo.InvariantCulture, includePQ: false);
+            var str = Value.ToString(includePQ: false);
             if (Text != str)
             {
                 Text = str; // ensure mu displayed

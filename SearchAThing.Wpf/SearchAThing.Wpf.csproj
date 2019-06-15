@@ -64,7 +64,7 @@
   </ItemGroup>
   <ItemGroup>
     <PackageReference Include="netcore-sci">
-      <Version>1.0.0-CI00022</Version>
+      <Version>1.0.0-CI00026</Version>
     </PackageReference>
     <PackageReference Include="netcore-util">
       <Version>1.0.0-CI00056</Version>

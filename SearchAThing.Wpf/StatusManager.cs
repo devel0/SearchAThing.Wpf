@@ -52,7 +52,16 @@ namespace SearchAThing.Wpf
                             lock (autoclearLck)
                             {
                                 lastStatusChange = null;
-                                ManagedStatus = "";
+                                lock (statusIdLck)
+                                {
+                                    if (statusIdMsgDict.Count > 0)
+                                    {
+                                        var str = statusIdMsgDict.Last().Value;
+                                        ManagedStatus = str;
+                                    }
+                                    else
+                                        ManagedStatus = "";
+                                }
                             }
                         }
                         await Task.Delay(500, cts.Token);
@@ -93,7 +102,7 @@ namespace SearchAThing.Wpf
                 }
             }
         }
-        
+
         string _status;
         /// <summary>
         /// Bind your textblock to this property.
@@ -196,7 +205,7 @@ namespace SearchAThing.Wpf
                     ManagedStatus = $"{idMsg} [done]";
             }
         }
-        
+
     }
 
 }

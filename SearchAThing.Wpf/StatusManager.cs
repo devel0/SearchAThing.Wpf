@@ -54,9 +54,10 @@ namespace SearchAThing.Wpf
                                 lastStatusChange = null;
                                 lock (statusIdLck)
                                 {
-                                    if (statusIdMsgDict.Count > 0)
+                                    if (statusIdSet.Count > 0)
                                     {
-                                        var str = statusIdMsgDict.Last().Value;
+                                        var id = statusIdSet.Last();
+                                        var str = statusIdMsgDict[id];
                                         ManagedStatus = str;
                                     }
                                     else

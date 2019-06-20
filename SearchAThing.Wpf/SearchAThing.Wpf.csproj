@@ -1,80 +1,35 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
-<Project ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
-  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
-  <PropertyGroup>
-    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
-    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{3AD9C4C2-A811-4268-BB9F-4DBAE7D21C3F}</ProjectGuid>
-    <OutputType>Library</OutputType>
-    <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>SearchAThing.Wpf</RootNamespace>
-    <AssemblyName>SearchAThing.Wpf</AssemblyName>
-    <TargetFrameworkVersion>v4.6.1</TargetFrameworkVersion>
-    <FileAlignment>512</FileAlignment>
-    <Deterministic>true</Deterministic>
-  </PropertyGroup>
-  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
-    <DebugSymbols>true</DebugSymbols>
-    <DebugType>full</DebugType>
-    <Optimize>false</Optimize>
-    <OutputPath>bin\Debug\</OutputPath>
-    <DefineConstants>DEBUG;TRACE</DefineConstants>
-    <ErrorReport>prompt</ErrorReport>
-    <WarningLevel>4</WarningLevel>
-  </PropertyGroup>
-  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
-    <DebugType>pdbonly</DebugType>
-    <Optimize>true</Optimize>
-    <OutputPath>bin\Release\</OutputPath>
-    <DefineConstants>TRACE</DefineConstants>
-    <ErrorReport>prompt</ErrorReport>
-    <WarningLevel>4</WarningLevel>
-  </PropertyGroup>
-  <ItemGroup>
-    <Reference Include="PresentationCore" />
-    <Reference Include="PresentationFramework" />
-    <Reference Include="System" />
-    <Reference Include="System.Core" />
-    <Reference Include="System.Drawing" />
-    <Reference Include="System.Windows.Forms" />
-    <Reference Include="System.Xaml" />
-    <Reference Include="System.Xml.Linq" />
-    <Reference Include="System.Data.DataSetExtensions" />
-    <Reference Include="Microsoft.CSharp" />
-    <Reference Include="System.Data" />
-    <Reference Include="System.Net.Http" />
-    <Reference Include="System.Xml" />
-    <Reference Include="WindowsBase" />
-  </ItemGroup>
-  <ItemGroup>
-    <Compile Include="StatusManager.cs" />
-    <Compile Include="StringNullOrEmptyConverter.cs" />
-    <Compile Include="ObjectNullVisibilityConverter.cs" />
-    <Compile Include="ObjectNullBoolConverter.cs" />
-    <Compile Include="MathOpConverterMulti.cs" />
-    <Compile Include="MathOpConverter.cs" />
-    <Compile Include="BoolVisibilityConverter.cs" />
-    <Compile Include="BoolInvertConverter.cs" />
-    <Compile Include="RTFLog.xaml.cs">
-      <DependentUpon>RTFLog.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="MeasureVar.cs" />
-    <Compile Include="SciTextBox.cs" />
-    <Compile Include="Properties\AssemblyInfo.cs" />
-  </ItemGroup>
-  <ItemGroup>
-    <PackageReference Include="netcore-sci">
-      <Version>1.0.0-CI00027</Version>
-    </PackageReference>
-    <PackageReference Include="netcore-util">
-      <Version>1.0.0-CI00056</Version>
-    </PackageReference>
-  </ItemGroup>
-  <ItemGroup>
-    <Page Include="RTFLog.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-  </ItemGroup>
-  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+<Project Sdk="Microsoft.NET.Sdk">
+    <PropertyGroup>
+        <TargetFramework>net461</TargetFramework>
+        <GenerateDocumentationFile>true</GenerateDocumentationFile>        
+        <PackageId>SearchAThing.Wpf</PackageId>   
+        <PackageVersion>1.0.1</PackageVersion>
+        <Title>net core util</Title>
+        <Description>WPF library that uses netcore-sci</Description>
+        <Authors>Lorenzo Delana</Authors>
+        <PackageTags>netcore scientific wpf</PackageTags>
+        <PackageProjectUrl>https://github.com/devel0/SearchAThing.Wpf</PackageProjectUrl>
+        <PackageLicenseExpression>MIT</PackageLicenseExpression>
+        <Company>SearchAThing</Company>
+        <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
+    </PropertyGroup>
+    <ItemGroup>
+      <None Remove="RTFLog.xaml" />
+    </ItemGroup>
+    <ItemGroup>
+      <PackageReference Include="netcore-sci" Version="1.0.5" />
+      <PackageReference Include="netcore-util" Version="1.0.1" />
+    </ItemGroup>
+    <ItemGroup>
+      <Page Include="RTFLog.xaml">
+        <Generator>XamlIntelliSenseFileGenerator</Generator>
+        <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+      </Page>
+    </ItemGroup>
+    <ItemGroup>
+      <Reference Include="PresentationCore" />
+      <Reference Include="PresentationFramework" />
+      <Reference Include="System.Xaml" />
+      <Reference Include="WindowsBase" />
+    </ItemGroup>
 </Project>

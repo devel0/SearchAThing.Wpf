@@ -1,6 +1,6 @@
 # SearchAThing.Wpf
 
-[![devel0 MyGet Build Status](https://www.myget.org/BuildSource/Badge/devel0?identifier=fc5eb124-c7dc-4d94-b914-6db85ddef2ea)](https://www.myget.org/)
+[![NuGet Badge](https://buildstats.info/nuget/netcore-util)](https://www.nuget.org/packages/SearchAThing.Wpf/)
 
 ## features
 
@@ -8,9 +8,9 @@
 - SciTextBox
 - StatusManager
 
-## install and usage
+## install
 
-browse [myget instructions](https://www.myget.org/feed/devel0/package/nuget/SearchAThing.Wpf)
+- [nuget package](https://www.nuget.org/packages/SearchAThing.Wpf/)
 
 ## cheatsheet
 

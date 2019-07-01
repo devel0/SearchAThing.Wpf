@@ -3,7 +3,7 @@
         <TargetFramework>net461</TargetFramework>
         <GenerateDocumentationFile>true</GenerateDocumentationFile>        
         <PackageId>SearchAThing.Wpf</PackageId>   
-        <PackageVersion>1.0.1</PackageVersion>
+        <PackageVersion>1.0.2</PackageVersion>
         <Title>net core util</Title>
         <Description>WPF library that uses netcore-sci</Description>
         <Authors>Lorenzo Delana</Authors>
@@ -17,8 +17,8 @@
       <None Remove="RTFLog.xaml" />
     </ItemGroup>
     <ItemGroup>
-      <PackageReference Include="netcore-sci" Version="1.0.5" />
-      <PackageReference Include="netcore-util" Version="1.0.1" />
+      <PackageReference Include="netcore-sci" Version="1.0.19" />
+      <PackageReference Include="netcore-util" Version="1.0.4" />
     </ItemGroup>
     <ItemGroup>
       <Page Include="RTFLog.xaml">

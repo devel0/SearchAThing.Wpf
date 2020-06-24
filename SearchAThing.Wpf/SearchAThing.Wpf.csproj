@@ -10,14 +10,14 @@
         <PackageLicenseExpression>MIT</PackageLicenseExpression>
         <Company>SearchAThing</Company>
         <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
-        <Version>1.0.5</Version>
+        <Version>1.0.6</Version>
     </PropertyGroup>
     <ItemGroup>
       <None Remove="RTFLog.xaml" />
     </ItemGroup>
     <ItemGroup>
-      <PackageReference Include="netcore-sci" Version="1.0.19" />
-      <PackageReference Include="netcore-util" Version="1.0.4" />
+      <PackageReference Include="netcore-sci" Version="1.1.33" />
+      <PackageReference Include="netcore-util" Version="1.2.2" />
     </ItemGroup>
     <ItemGroup>
       <Page Include="RTFLog.xaml">

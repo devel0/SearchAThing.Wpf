@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
@@ -62,13 +63,13 @@ namespace SearchAThing.Wpf
             if (obj.Value != null)
             {
                 if (obj.Value.MU.Equals(MUCollection.Adimensional.adim))
-                {
-                    var str = obj.Value.ToString(includePQ: false);
+                {                    
+                    var str = obj.Value.ToString(includePQ: false, culture: Thread.CurrentThread.CurrentCulture);
 
                     obj.Text = str;
                 }
                 else
-                    obj.Text = obj.Value.ToString();
+                    obj.Text = obj.Value.ToString(culture: Thread.CurrentThread.CurrentCulture);
             }
             else
                 obj.Text = "";
@@ -88,14 +89,14 @@ namespace SearchAThing.Wpf
         {
             if (Value == null) return;
 
-            var measure = Sci.Measure.TryParse(text, Value.MU.PhysicalQuantity);
+            var measure = Sci.Measure.TryParse(text, Value.MU.PhysicalQuantity, Thread.CurrentThread.CurrentCulture);
 
             if (measure == null)
             {
                 var tval = text;
-                if (Value.MU != MUCollection.Adimensional.adim)
+                if (!Value.MU.Equals(MUCollection.Adimensional.adim))
                     tval = text + Value.MU.ToString();
-                measure = Sci.Measure.TryParse(text + Value.MU.ToString(), Value.MU.PhysicalQuantity);
+                measure = Sci.Measure.TryParse(text + Value.MU.ToString(), Value.MU.PhysicalQuantity, Thread.CurrentThread.CurrentCulture);
             }
 
             if (measure != null)
@@ -152,7 +153,7 @@ namespace SearchAThing.Wpf
         {
             base.OnLostFocus(e);
 
-            var str = Value.ToString(includePQ: false);
+            var str = Value.ToString(includePQ: false, culture: Thread.CurrentThread.CurrentCulture);
             if (Text != str)
             {
                 Text = str; // ensure mu displayed
